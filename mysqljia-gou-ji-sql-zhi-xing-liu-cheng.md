@@ -117,7 +117,6 @@ select * from information_schema.optimizer_trace;
 --关闭优化器分析过程追踪
 set optimizer_trace = 'enabled=off';
 show variables like 'optimizer_trace';
-
 ```
 
 查询到的结果是json格式：主要分三个阶段：
@@ -126,7 +125,7 @@ show variables like 'optimizer_trace';
 * SQL优化阶段（join\_optimization）
 * SQL执行阶段（join\_execution）
 
-其中 expanded_query:是最后执行的SQL语句； considered_execution\_plan:列出了所有的执行计划。
+其中 expanded\_query:是最后执行的SQL语句； considered\_execution\_plan:列出了所有的执行计划。
 
 ### 如何查看MySQL的执行计划
 
@@ -207,23 +206,9 @@ show engines;
 
 直接操作存储引擎， 执行优化器分析后的最优执行计划。
 
+## MySQL体系结构总结
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### MySQL模块详解
 
 
 
