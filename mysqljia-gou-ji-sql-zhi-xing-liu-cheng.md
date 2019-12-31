@@ -65,7 +65,7 @@ show variables like 'max_connections'; --在5.7版本中默认151个， 最大�
 
 > 半双工给MySQL带来的问题
 >
-> * mysql的查询语句不可以过长， 默认4M, 可以对max_allowed\__packet参数进行设置
+> * mysql的查询语句不可以过长， 默认4M, 可以对max\_allowed\_\_packet参数进行设置
 > * 返回大小受限制，所以sql中尽量避免不含limit的查询。进行分批查询。
 
 ### MySQL是否有缓存模块
@@ -99,6 +99,119 @@ show status like 'Last_query_cost';
 
 1. 多张表关联时， 以那张表作为基准表。
 2. 多个索引可以使用的时候， 使用哪个索引。
+
+### 优化器如何得到执行计划
+
+1. 打开优化器追踪（默认关闭状态，消耗性能）
+2. 执行SQL后查看分析过程
+3. 使用完后关闭追踪
+
+```sql
+--打开优化器追踪
+show variables like 'optimizer_trace';
+set optimizer_trace = 'enabled=on'; -- 注意设置的session 与 global级别； 默认session
+
+--查看分析过程
+select * from information_schema.optimizer_trace;
+
+--关闭优化器分析过程追踪
+set optimizer_trace = 'enabled=off';
+show variables like 'optimizer_trace';
+
+```
+
+查询到的结果是json格式：主要分三个阶段：
+
+* SQL准备阶段（join\_preparation）
+* SQL优化阶段（join\_optimization）
+* SQL执行阶段（join\_execution）
+
+其中 expanded_query:是最后执行的SQL语句； considered_execution\_plan:列出了所有的执行计划。
+
+### 如何查看MySQL的执行计划
+
+```sql
+explain select * from table; -- 在要执行的SQL前添加 explain 关键字
+```
+
+可以查询到多张表关联首先查询哪张表，可能用到哪些索引， 实际用到哪些索引。
+
+> 需要注意：explain 的结果也不一定是最终的执行方式。
+
+### 如何查看MySQL的存储引擎
+
+```sql
+show table status from 'gupao';
+```
+
+一个数据库可以使用多个存储引擎。
+
+### 如何查看数据库存放数据的路径
+
+```sql
+show variables like 'datadir';
+```
+
+### 数据库支持的存储引擎
+
+```sql
+show engines;
+```
+
+> 个存储引擎的特性，详见[官网说明](https://dev.mysql.com/doc/refman/5.7/en/storage-engines.html)
+
+### MyISAM存储引擎的特点
+
+拥有三个物理存储文件
+
+* 支持表级别的锁（插入和更新会锁表）， 不支持事物
+* 拥有较高的插入（insert）和查询（select）速度
+* 存储了表的行数（count速度更快）
+* 只使用于只读类的数据分析项目
+
+> 如何快速插入100万行数据：先使用MyISAM存储引擎插入数据， 再修改存储引擎为InnoDB。
+
+### InnoDB存储引擎的特点
+
+拥有两个物理存储文件
+
+* 支持事物，支持外键。因此数据的完整性，一致性更高
+* 支持行级别的锁和表级别的锁。
+* 支持读写并发，写不阻塞读（MVCC）。
+* 特殊的索引存放方式，可以减少IO， 提升查询效率
+* 适合：经常更新的表，存在并发读写或者有事物处理的业务系统。
+
+### Memory存储引擎的特点
+
+拥有一个存储文件
+
+* 把数据存储在内存里面， 读写速度很快， 但是数据库重启或者崩溃， 数据会全部消失，只适合做临时表
+
+### CSV存储引擎的特点
+
+拥有三个文件
+
+* 不允许有空行
+* 不支持索引
+* 格式通用，可以直接编辑
+* 适合：在不同数据库之间导入导出
+
+### 如何选择存储引擎
+
+1. 如果对数据一致性要求比较高，需要事物支持，可以选择InnoDB.
+2. 如果数据查询多更新少，对查询性能要求比较高， 可以选择MyISAM。
+3. 如果需要一个用于查询的临时表， 可以选择Memory.
+4. 如果都不能满足要求， 可以使用C语言自己开发一个存储引擎，详情参考[官网说明](https://dev.mysql.com/doc/internals/en/custom-engine.html)
+
+### MySQL的执行引擎（Query Execution Engine）的作用
+
+直接操作存储引擎， 执行优化器分析后的最优执行计划。
+
+
+
+
+
+
 
 
 
