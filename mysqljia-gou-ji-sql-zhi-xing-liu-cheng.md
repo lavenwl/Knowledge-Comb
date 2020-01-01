@@ -210,6 +210,59 @@ show engines;
 
 ### MySQL模块详解
 
+![](/assets/import.png)
+
+| 模块名称 | 说明 |
+| :--- | :--- |
+| Connector | 用来支持各种语言和SQL的交互，比如PHP， Python, JDBC |
+| Management Serveices & Utilities | 系统管理和控制工具，包括备份恢复，MySQL复制，集群等 |
+| Connection Pool | 连接池，管理需要缓存的资源，包括用户密码权限线程等 |
+| SQL Interface | 用来接收用户的SQL命令，返回用户需要的查询结果 |
+| Parser | 用来解析SQL语句 |
+| Optimizer | 查询优化器 |
+| Cache and Buffer | 查询缓存，除了行记录的缓存外，还有表缓存，key缓存，权限缓存等 |
+| Pluggable Storage Engines | 插件存储引擎， 它提供API给服务层使用 |
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
