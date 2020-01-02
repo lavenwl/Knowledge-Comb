@@ -316,7 +316,40 @@ show variables like 'innodb_flush_log_at_trx_commit';
 ### Redo log 有什么特点
 
 * redo log 是InnoDB存储引擎实现的， 并不是所有的存储引擎都有
-* 不是记录数据更新之后状态， 二十记录这个也做了什么改动， 属于**物理日志**
-* 
+* 不是记录数据更新之后状态， 而是记录这个也做了什么改动， 属于**物理日志**
+* redolog的大小是固定的， 前面的内容会被覆盖
+
+### InnoDB的磁盘结构
+
+五大表空间：
+
+1. 系统表空间\(system tablespace\)：默认的共享表空间（/var/lib/mysql/ibdata1）:包含：InnoDB数据字典和双写缓冲区，ChangeBuffer. undo Logs,如果没有指定file-per-table，也包含用户创建的表和索引数据。
+   1. undo后面介绍，因为有独立的表空间。
+   2. 数据字典：有内部系统表组成，存储表和索引的元数据（定义信息）
+   3. 双写缓冲（InnoDB的一大特性）
+      1. InnoDB的页和操作系统的页大小不一致， InnoDB页大小为16k， 操作系统的页大小为4k, InnoDB写入磁盘时，一个页需要分四次写。如果存储引擎正在写入也的数据到磁盘时发生了宕机， 可能出现页只写入一部分的情况。所以在对于应用redolog之前，需要一个**页的副本**。如果出现了写入失效，就用也的副本来还原这个页。然后在应用redolog，这个页的副本就是double write， InnoDB的双写技术。通过它实现了数据页的可靠性。
+2. 独占表空间（file-per-table tablespace）：我们可以让每一张表独占一个表空间。默认开启
+3. 通用表空间（generaltablespaces）
+4. 临时表空间（temporary tablespace）
+5. undo log tablespace
+
+### InnoDB后台进程
+
+1. master thread
+2. IO thread
+3. purge thread
+4. page cleaner thread
+
+### Binlog
+
+binglog以事件的形式记录了所有的DDL和DML语句（因为他记录的是操作不是数值， 属于**逻辑日志**）不同于Redolog， 他的文件内容是可以追加的， 没有固定大小限制。可以做**数据恢复**，也可以用来实现**主从复制**，原理就是从主服务器读取binlog然后执行一遍。
+
+### 一条更新SQL的整体执行流程
+
+1. 先查询数据， 如果有缓存则用到缓存
+2. 做相应的修改操作，调用引擎API接口，写入这一行数据到内存，同时记录redolog。这时redolog进入prepare状态，然后告诉执行器执行完成了，可以提交
+3. 执行器收到通知后，记录binlog，然后调用存储引擎接口， 设置redolog为commit状态
+4. 更新完成
+
 
 
