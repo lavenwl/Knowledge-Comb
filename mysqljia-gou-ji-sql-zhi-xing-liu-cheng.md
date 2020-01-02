@@ -210,7 +210,7 @@ show engines;
 
 ### MySQL模块详解
 
-![](/assets/import.png)
+图：MySQL模块详解.png
 
 | 模块名称 | 说明 |
 | :--- | :--- |
@@ -225,7 +225,7 @@ show engines;
 
 ### MySQL 架构分层
 
-![](/assets/mysql架构分层.png)
+图：mysql架构分层.png
 
 ### 简要介绍InnoDB存储引擎的Buffer Pool
 
@@ -235,9 +235,11 @@ buffer pool缓存的页面信息包括数据页。索引页。
 
 ### InnoDB内存结构和磁盘结构
 
-![](/assets/InnoDB的内存结构与磁盘结构.png)
+图：InnoDB的内存结构与磁盘结构.png
 
 内存中包含：Buffer Pool, Change Buffer、Adaptive Hash Index、还有一个（redo）log buffer
 
+### 查看BufferPool状态
 
+查看服务器状态，里面有很多跟BufferPool相关的信息
 
