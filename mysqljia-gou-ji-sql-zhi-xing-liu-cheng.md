@@ -31,7 +31,7 @@ show processlist;
 | Sleep | 线程正在等待客户端，以向它发送一个新语句 |
 | Query | 线程正在执行查询或往客户端发送数据 |
 | Locked | 该查询被其他查询锁定 |
-| Copying to tmp table on disk | 临时结果集合大于tmp\_table\_size。线程把临时表从存储器内部各式改变为磁盘模式，以节约存储器 |
+| Copying to tmp table on disk | 临时结果集合大于<kbd>tmp\_table\_size</kbd>。线程把临时表从存储器内部各式改变为磁盘模式，以节约存储器 |
 | Sending data | 线程正在为SELECT语句处理行， 同事正在向客户端发送数据 |
 | Sorting for group | 线程正在进行分类， 以满足GROUP BY要求 |
 | Sorting for order | 线程正在进行分类，以满足ORDER BY要求 |
@@ -210,7 +210,7 @@ show engines;
 
 ### MySQL模块详解
 
-![](/assets/import.png)
+![](assets/import.png)
 
 | 模块名称 | 说明 |
 | :--- | :--- |
