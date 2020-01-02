@@ -223,5 +223,77 @@ show engines;
 | Cache and Buffer | 查询缓存，除了行记录的缓存外，还有表缓存，key缓存，权限缓存等 |
 | Pluggable Storage Engines | 插件存储引擎， 它提供API给服务层使用 |
 
+### MySQL 架构分层
+
+![](/assets/mysql架构分层.png)
+
+### 简要介绍InnoDB存储引擎的Buffer Pool
+
+Buffer Pool是InnoDB存储引擎的一种缓冲池技术，也就是将磁盘读取到的页放在一块内存区域里面。这个内存区域叫做Buffer Pool 
+
+### InnoDB内存结构和磁盘结构
+
+![](/assets/InnoDB的内存结构与磁盘结构.png)
+
+内存中包含：Buffer Pool, Change Buffer、Adaptive Hash Index、还有一个（redo）log buffer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
