@@ -243,3 +243,86 @@ buffer pool缓存的页面信息包括数据页。索引页。
 
 查看服务器状态，里面有很多跟BufferPool相关的信息
 
+```sql
+show status like '%innodb_buffer_pool%';
+```
+
+> 状态信息具体详见[官网说明](https://dev.mysql.com/doc/refman/5.7/en/server-status-variables.html)
+
+### 修改Buffer Pool的参数
+
+```sql
+show variables like '%innodb_buffer_pool%';
+```
+
+> 参数信息具体详见[官网说明](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html)
+
+### 简介InnoDB存储引擎的Change Buffer功能
+
+如果修改的数据不是唯一索引， 不需要加载磁盘索引页检查唯一性， 那这种情况下是可以将修改记录在缓冲池中的，这个区域就是Change Buffer。再由Change Buffer 记录到数据也的操作叫做merge 在一下情况下会触发merge操作：
+
+* 访问这个数据也的时候
+* 通过后台线程，或者数据库shutDown
+* redo log写满时
+
+优化：如果数据库大部分索引都是非唯一索引。并且业务是写多杜少， 不会再写数据后立刻读取，就可以使用ChangeBuffer（写缓冲）。写多读少的业务。调大这个值。
+
+```sql
+show variables like 'innodb_change_buffer_max_size'; --代表ChangeBuffer占bufferPool的比例，默认25%
+```
+
+### Adaptive Hash Index \(后续完善\) 
+
+### （redo）Log Buffer
+
+为了避免数据库宕机造成的数据丢失，InnoDB把对页面的修改操作专门写入一个日志文件， 并且数据库启动时从这个文件进行恢复操作（实现crash-safe）用它来实现事物的持久性。这个文件叫做redo log。对应/var/li8b/mysql/ib_logfile0\|ib_logfile1每个48M.
+
+MySQL的WAL\(Write-Ahead Logging\)技术，关键点就是先写日志， 再写磁盘。日志与磁盘配合进行的一个过程。
+
+关于log buffer的参数设置
+
+```sql
+show variables like 'innodb_log%';
+```
+
+| 值 | 说明 |
+| :--- | :--- |
+| innodb\_log\_file\_size | 指定每个文件的大小，默认48M |
+| innodb\_log\_files\_in\_group | 指定文件的数量，默认2 |
+| innodb\_log\_group\_home\_dir | 指定文件所在的路径，相对或绝对，默认datadir |
+
+redo log不是每次都写入磁盘， 在BufferPool里面有一个内存区域（logBuffer）专门用来保存即将要写入日志文件的数据， 默认16M.
+
+```sql
+show variables like 'innodb_log_buffer_size';
+```
+
+redo log的内容主要用于崩溃恢复。我们写入到磁盘的时候， 操作系统本身是有缓存的， flush就是吧操作系统缓冲区写入到磁盘。
+
+log buffer写入磁盘的时机，由一个参数控制，默认是1
+
+```sql
+show variables like 'innodb_flush_log_at_trx_commit';
+```
+
+> 详细介绍参见[官网说明](https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html)
+
+| 值 | 说明 |
+| :--- | :--- |
+| 0（延迟写） | logbuffer将每秒写入logfile中，并且logfile的flush操作同事进行。该模式下， 在事务提交的时候，不会主动触发写入磁盘的操作。 |
+| 1（默认，实时写， 实时刷） | 每次事物提交的时候MySQL回吧logbuffer的数据写入logfile，并且刷到磁盘中去 |
+| 2（实时写， 延迟刷） | 每次提交的时候MySQL会把logbuffer的数据写入logfile.但是flush操作不会同事进行。该模式下，MySQL会每秒执行一次 flush |
+
+### Redo log 有什么特点
+
+* redo log 是InnoDB存储引擎实现的， 并不是所有的存储引擎都有
+* 不是记录数据更新之后状态， 二十记录这个也做了什么改动， 属于**物理日志**
+* 
+
+
+
+
+
+
+
+
