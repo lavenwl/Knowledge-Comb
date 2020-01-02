@@ -271,11 +271,11 @@ show variables like '%innodb_buffer_pool%';
 show variables like 'innodb_change_buffer_max_size'; --代表ChangeBuffer占bufferPool的比例，默认25%
 ```
 
-### Adaptive Hash Index \(后续完善\) 
+### Adaptive Hash Index \(后续完善\)
 
 ### （redo）Log Buffer
 
-为了避免数据库宕机造成的数据丢失，InnoDB把对页面的修改操作专门写入一个日志文件， 并且数据库启动时从这个文件进行恢复操作（实现crash-safe）用它来实现事物的持久性。这个文件叫做redo log。对应/var/li8b/mysql/ib_logfile0\|ib_logfile1每个48M.
+为了避免数据库宕机造成的数据丢失，InnoDB把对页面的修改操作专门写入一个日志文件， 并且数据库启动时从这个文件进行恢复操作（实现crash-safe）用它来实现事物的持久性。这个文件叫做redo log。对应/var/li8b/mysql/ib\_logfile0\|ib\_logfile1每个48M.
 
 MySQL的WAL\(Write-Ahead Logging\)技术，关键点就是先写日志， 再写磁盘。日志与磁盘配合进行的一个过程。
 
@@ -318,11 +318,5 @@ show variables like 'innodb_flush_log_at_trx_commit';
 * redo log 是InnoDB存储引擎实现的， 并不是所有的存储引擎都有
 * 不是记录数据更新之后状态， 二十记录这个也做了什么改动， 属于**物理日志**
 * 
-
-
-
-
-
-
 
 
