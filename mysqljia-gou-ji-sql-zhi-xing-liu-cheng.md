@@ -229,71 +229,15 @@ show engines;
 
 ### 简要介绍InnoDB存储引擎的Buffer Pool
 
-Buffer Pool是InnoDB存储引擎的一种缓冲池技术，也就是将磁盘读取到的页放在一块内存区域里面。这个内存区域叫做Buffer Pool 
+Buffer Pool是InnoDB存储引擎的一种缓冲池技术，也就是将磁盘读取到的页放在一块内存区域里面。这个内存区域叫做Buffer Pool,
+
+buffer pool缓存的页面信息包括数据页。索引页。
 
 ### InnoDB内存结构和磁盘结构
 
 ![](/assets/InnoDB的内存结构与磁盘结构.png)
 
 内存中包含：Buffer Pool, Change Buffer、Adaptive Hash Index、还有一个（redo）log buffer
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
