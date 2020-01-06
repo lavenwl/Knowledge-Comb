@@ -58,12 +58,104 @@ and table_name='user_innodb';
 
 ### InnoDB如何使用哈希索引
 
-InnoDB中为热点数据自动创建自适应Hash索引，用户不可见。这个默认值可以修改：
+InnoDB中为热点数据自动创建自适应Hash索引，用户不可见。这个默认值可以修改：默认打开 
 
 ```sql
 show variables like 'innodb_adaptive_hash_index';
 show engine innodb status; --存储引擎状态中查看
 ```
+
+### MySQL数据存储文件
+
+数据文件存储的目录：
+
+```sql
+show variables like 'datadir';
+```
+
+* MyISAM存储引擎：
+  * .frm文件是表结构定义文件
+  * .MYD文件是数据文件
+  * .MYI文件是索引文件
+* InnoDB存储引擎：
+  * .frm文件是表结构定义文件
+  * .ibd文件存放了索引与数据
+
+### 什么是聚集索引（聚簇索引）？
+
+索引键值的逻辑顺序与表数据行的物理顺序一致的索引。
+
+### 如果表中没有主键怎么处理
+
+1. 如果我们定义了主键（Primary key），那么InnoDB会选择主键作为聚集索引。
+2. 如果没有显示定义主键，则InnoDB会选择第一个不包含null值的唯一索引作为主键索引。
+3. 如果也没有唯一索引，则InnoDB会选择内置6字节长的ROWID作为隐藏的聚集索引，
+
+```sql
+select _rowid from tableName;
+```
+
+### 索引的使用原则
+
+1. 列的离散度
+   1. *  离散度公式：count\(distinct\(column\_name\)\):count\(\*\);
+2. 联合索引最左匹配
+   1. * 使用及创建联合索引时，最常使用的条件放在前面
+      * 联合索引匹配由左到右中间不能中断
+3. 覆盖索引
+   1. * 回表：非主键索引，我们先通过索引找到主键索引，再通过主键索引找到数据，它基于主键索引的查询多扫描一次索引树， 这个过程叫做索引。
+      * 覆盖索引：不管是单列索引还是联合索引， 如果select的数据列只用在索引中就能够取得， 不必从数据区中读取，这时候使用的索引就叫做覆盖索引，这样就避免了回表。
+      * EXPLAIN 中 Extra字段含有"Using index"，代表使用了覆盖索引
+      * 覆盖索引减少了IO次数，减少了数据的访问量，可以大大提升查询的效率
+4. 索引条件下推（ICP）
+   1. * 索引的比较实在存储引擎进行的，数据记录的比较是在Server层进行的
+      * EXPLAIN 中 Extra字段含有“Using where”, 代表从存储引擎取回的数据不完全满足条件，需要在Server层过滤
+      * EXPLAIN 中 Extra字段含有“Using index condition”，代表使用了索引条件下推。
+5. 索引的创建与使用
+   1. 索引的创建
+      1. * 在用于where 判断 order排序 join 的 on字段上创建索引
+         * 索引个数不要太多（浪费空间，更新变慢）
+         * 区分度第的字段不建立索引（离散度低，导致扫描行数过多）
+         * 频繁更新的值， 不要作为主键货色索引（页分裂）
+         * 组合索引把散列性高（区分度高）的值放在前面
+         * 创建复合索引，而不是修改单列索引
+         * 过长的字段，建立前缀索引
+         * 不建议使用无序值（UUID，身份证）作为索引
+   2. 什么情况应用不到索引
+      1. * 索引列上使用函数
+         * 字符串不加引号，出现隐形转换
+         * like条件前面带“%”
+         * 负向查询（not like  !=   not in ）
+         * 最终用不用到索引是有优化器说了算，优化器根据cost（Cost Base Optimizer）开销,他不基于规则（Rule-Base Optimizer）也不基于语义，怎么计算开销详见[官网说明](https://dev.mysql.com/doc/refman/5.7/en/cost-model.html)
+
+```sql
+alter table tableName drop index indexName; -- 删除一个索引
+alter table tablename add index indexName(columnName); -- 添加一个索引
+show indexes from tableName; -- 查看所有的索引
+
+-- 索引条件下推
+set optimizer_switch='index_condition_pushdown=off'; -- 设置关闭索引条件下推
+show variables like 'optimizer_switch'; -- 查看索引条件下推的状态
+set optimizer_switch='index_condition_pushdown=on'; -- 开启ICP（索引条件下推）
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
