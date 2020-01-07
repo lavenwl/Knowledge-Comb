@@ -47,6 +47,55 @@ show global variables like 'gtid_mode';
 2. NDB Cluster: 基于NDB集群存储引擎的MySQL Cluster 详情参见[官网说明](https://dev.mysql.com/doc/mysql-cluster-excerpt/5.7/en/mysql-cluster-overview.html)
 3. Galera：一种多主同步复制的集群方案。详情参见[官网说明](https://galeracluster.com)
 4. MHA/MMM：Master-Master replication manager for MySQL是一种一主的高可用架构
+5. MGR：MySQL5.7.17退出的InnoDB Cluster， 也叫MySQL Group Replication（MGR）
+
+### 优化器优化（SQL语句分析与优化）
+
+#### 慢查询日志 slow query log
+
+##### 打开慢日志开关
+
+```sql
+show variables like '%slow_query%';
+
+--也可以直接动态修改参数（重启后失效）
+set @@global.slow_query_log=1; -- 1启动，0关闭，重启后失效
+set @@global.long_query_time=3; --MySQL默认的慢查询时间是10s
+show variables like '%long_query%';
+show variables like '%slow_query%';
+```
+
+或者修改配置文件my.cnf
+
+```config
+slow_query_log=ON
+long_query_time=2
+slow_query_log_file=/var/lib/mysql/localhost-slow.log
+```
+
+##### 慢日志的分析
+
+1. 日志内容
+2. mysqldumpslow
+
+> muysqldumpslow工具的详细介绍参见[官网说明](https://dev.mysql.com/doc/refman/5.7/en/mysqldumpslow.html)
+
+```sql
+show global status like 'slow_queries'; --查看有多少慢查询
+show variables like '%slow_query%'; --获取慢日志的目录
+
+--mysqldumpslow查询用时最多的20条SQL
+mysqldumpslow -s t -t 20 -g 'select' /var/lib/lmysql/localhost-slow.log
+```
+
+mysqldumpslow查询结果说明
+
+* count：这个SQL执行了多少次
+* time：执行的时间，括号里面累计时间
+* lock：锁定的时间：括号里面累计时间
+* Rows: 返回的记录，括号是累计记录
+
+#### show profile
 
 
 
