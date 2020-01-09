@@ -161,7 +161,6 @@ show variables like 'innodb_status_output%';
 --开启输出
 set global innodb_status_output=ON;
 set global innodb_status_output_locks=on;
-
 ```
 
 #### EXPLAIN 执行计划
@@ -173,6 +172,39 @@ set global innodb_status_output_locks=on;
 ##### id
 
 * ID是查询的编号
-* 
+* ID值不同的时候，先查询ID值大的（先大后小）
+
+* ID值相同的时候，从上往下执行
+
+* 查询表的数据量不同，会影响查询顺序， 是因为笛卡尔乘积问题， 如果有三个表求笛卡尔乘积， 会选前两个乘积小的优先查询
+
+##### select type
+
+* SIMPLE: 简单查询，不包含子查询，不包含union
+* PRIMARY：子查询SQL中的主查询，也就是最外面的查询
+* SUBQUERY：子查询SQL语句中的内层查询都是SUBQUERY类型的
+* DERIVED：衍生查询，表示在得到最终查询结果之前会用到的临时表
+* UNION：用到union的查询
+* UNION RESULT：主要显示哪些表之间存在UNION查询。&lt;union2,3&gt; 代表id=2和id=3的查询存在UNION
+
+##### type 链接类型
+
+> 链接类型的详细说明见[官网说明](https://dev.mysql.com/doc/refman/5.7/en/explain-output.html)
+
+所有链接类型中，上面最后，越往下越差。在常见的链接类型中： system &gt; const &gt;eq\_ref &gt; ref &gt; range &gt; index &gt; all
+
+* const：主键索引或者唯一索引，只能查到一条数据的SQL
+* system：system是const的一个特例，只有一行满足条件，的系统表
+* eq\_ref：通常出现在夺标的join查询，表示对于前表的每一个结果，都只能匹配到后表的一行记录，一般是唯一索引的查询
+* ref： 查询用到了非唯一性索引，或者关联操作只使用了索引的最左前缀
+* range：索引范围扫描，如果where后面是between， and，或&lt;, &gt;, &gt;=, &lt;=, in等，type类型为range
+* index： Full Index Scan， 查询全部索引中的数据（比不走索引要快）
+* all： Full Table Scan，如果没有索引，或者没有用到索引， type就是all， 代表全表扫描
+* null：不用访问表或索引就能找到结果：如：select 1 from dual where 1=1;
+
+一般来说，需要保证查询至少达到range级别，最后达到ref。all（全表扫描）和index（查询全部索引）是需要优化的。
+
+##### possible\_key, key 
+
 
 
