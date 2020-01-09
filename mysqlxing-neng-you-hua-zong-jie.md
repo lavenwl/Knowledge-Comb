@@ -97,5 +97,82 @@ mysqldumpslow查询结果说明
 
 #### show profile
 
+showprofile可以查看SQL语句执行的时候使用的资源信息，如CPU，IO的消耗情况，在SQL中输入help profile可以看到帮助信息
+
+##### 查看是否开启
+
+```sql
+select @@profiling;
+set @@profiling=1;
+```
+
+##### 查看Profile统计
+
+```sql
+--查看统计信息（命令最后带s）
+show profiles;
+--查看最后一条SQL的执行详细信息从中找出耗时最多的环节（没有s）
+show profile;
+--也可以根据查询ID查看执行详细信息，在后面加上for query ID.
+show profile for query 1;
+```
+
+#### 其他系统命令
+
+可以通过查看运行线程状态和服务器运行信息，存储引擎信息来分析
+
+##### show processlist
+
+> 具体介绍详见[官网说明](https://dev.mysql.com/doc/refman/5.7/en/show-processlist.html)
+
+```sql
+show processlist;
+select * from information_schema.processlist;
+```
+
+| 列名 | 说明 |
+| :--- | :--- |
+| id | 线程的唯一标志，可以根据它kill线程 |
+| User | 启动这个线程的用户，普通用户只能看到自己的线程 |
+| Host | 哪个IP端口发起的连接 |
+| db | 操作的数据库 |
+| Command | 线程的命令，详见[官网说明](https://dev.mysql.com/doc/refman/5.7/en/thread-commands.html) |
+| Time | 操作持续时间，单位秒 |
+| State | 线程状态，详见[官网说明](https://dev.mysql.com/doc/refman/5.7/en/general-thread-states.html) |
+| info | SQL语句的前100个字符，如果查看完整SQL使用 show full processlist |
+
+##### show status
+
+show status 用于查看MySQL服务器运行状态（重启后会清空）有session和global两种作用域，详见[官网说明](https://dev.mysql.com/doc/refman/5.7/en/show-engine.html)
+
+```sql
+show global status like 'com_select'; -- 查看select次数
+```
+
+##### show engine 存储引擎运行信息
+
+show engine用来显示存储引擎的当前运行信息， 包括事务持有的表锁，行锁信息；事务的所等待情况；线程信号量等待；文件IO请求；bufferpool统计信息
+
+```sql
+show engine innodb status;
+
+--如果需要将监控信息输出到错误信息文件（15s一次）可以开启输出
+show variables like 'innodb_status_output%';
+--开启输出
+set global innodb_status_output=ON;
+set global innodb_status_output_locks=on;
+
+```
+
+#### EXPLAIN 执行计划
+
+> MySQL5.6.3以前只能分析select，之后可以分析update, delete, insert。 x详细信息参见[官网说明](https://dev.mysql.com/doc/refman/5.7/en/explain-output.html)
+
+下面就EXPLAIN查询到的字段做一一介绍：
+
+##### id
+
+* ID是查询的编号
+* 
 
 
