@@ -204,7 +204,38 @@ set global innodb_status_output_locks=on;
 
 一般来说，需要保证查询至少达到range级别，最后达到ref。all（全表扫描）和index（查询全部索引）是需要优化的。
 
-##### possible\_key, key 
+##### possible\_key, key
+
+可能用到的索引和实际用到的索引
+
+##### key\_len
+
+索引的长度（使用的字节数）跟索引字段的类型长度有关
+
+##### rows
+
+MySQL认为扫描多少行才能返回查询的数据，预估值，越小越好
+
+##### filtered
+
+表示存储引擎返回的数据在server层过滤后，剩下多少满足条件的记录数量的比例，是一个百分比
+
+##### Extra
+
+执行计划给出的额外的信息说明
+
+* using index: 用到了覆盖索引，不需要回表
+* using where：使用where过滤，表示存储引擎返回的记录并不是所有的都满足查询条件，需要server层进行过滤（跟是否是用索引没关系）
+* using index condition：索引条件下推， 详情参考[官方说明](https://dev.mysql.com/doc/refman/5.7/en/index-condition-pushdown-optimization.html)
+* using filesort：不能使用索引排序，用到了额外的排序（跟磁盘或文件没有关系，需要优化的点）复合索引的前提
+* using temporary：用到了临时表。需要优化，例如创建复合索引
+  * distinct非索引列
+  * group by非索引列
+  * 使用join的时候， group任意列
+
+### SQL与索引优化
+
+> 具体优化细节参见[官网说明](https://dev.mysql.com/doc/refman/5.7/en/optimization.html)
 
 
 
