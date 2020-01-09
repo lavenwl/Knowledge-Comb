@@ -6,6 +6,7 @@
 * [MySQL索引原理与使用原则](mysqlsuo-yin-yuan-li-yu-shi-yong-yuan-ze.md)
 * [MySQL事务与锁详解](mysqlshi-wu-yu-suo-xiang-jie.md)
 * [MySQL性能优化总结](mysqlxing-neng-you-hua-zong-jie.md)
+* [重新认知UML](zhong-xin-ren-zhi-uml.md)
 
 ## Mysql
 
