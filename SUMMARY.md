@@ -7,6 +7,7 @@
 * [MySQL事务与锁详解](mysqlshi-wu-yu-suo-xiang-jie.md)
 * [MySQL性能优化总结](mysqlxing-neng-you-hua-zong-jie.md)
 * [重新认知UML](zhong-xin-ren-zhi-uml.md)
+* [软件设计的七大原则](ruan-jian-she-ji-de-qi-da-yuan-ze.md)
 
 ## Mysql
 
