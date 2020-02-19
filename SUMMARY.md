@@ -8,5 +8,3 @@
 * [重新认知UML](zhong-xin-ren-zhi-uml.md)
 * [软件设计的七大原则](ruan-jian-she-ji-de-qi-da-yuan-ze.md)
 
-## Mysql
-
