@@ -17,10 +17,12 @@ git restore --staged <fileName>
 git reset HEAD <fileName>
 ```
 
-* 本地修改的内容不要了, 想回到上一次提交的内容
+* 撤销本地的修改, 想回到上一次提交的内容
 
 ```shell
 git restore <fileName>
+// 或者使用, 返回到上一次暂存的内容
+git checkout -- <fileName> 
 ```
 
 
