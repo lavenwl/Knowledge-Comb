@@ -35,9 +35,11 @@ git checkout -- <fileName>
 * git stash: 保存工作区的临时文件, 方便切换分支后返回重新应用修改
 * git cherry-pick: 挑选某一次提交合并到特定分支
 
-
-
 rebase 相当于多次 cherry-pick操作.
 
 add 与 reset\(restore --staged\) 操作相反  reset HEAD &lt;fileName&gt; \(restore &lt;fileName&gt;\)可以删除本地的修改
+
+
+
+详情参考[官网](https://git-scm.com/book/zh/v2)
 
