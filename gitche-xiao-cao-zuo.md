@@ -37,3 +37,7 @@ git checkout -- <fileName>
 
 
 
+rebase 相当于多次 cherry-pick操作.
+
+add 与 reset\(restore --staged\) 操作相反  reset HEAD &lt;fileName&gt; \(restore &lt;fileName&gt;\)可以删除本地的修改
+
