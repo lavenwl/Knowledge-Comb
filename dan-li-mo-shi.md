@@ -147,6 +147,8 @@ public class LazyInnerClassSingleton{
 
 ### 如何解决序列化破坏单例的问题
 
+> 新增readResolve\(\)方法返回实例解决了单例模式被破坏的问题，但是实际上实例化了两次， 只不过新创建的对象没有被返回而已。
+
 ```java
 // 以懒汉式单例模式代码为例说明如何解决序列化破坏单例的问题， 重写一个方法
 public class HungrySingleton{
@@ -162,7 +164,15 @@ public class HungrySingleton{
         return instance;
     }
 }
+```
 
+### 注册式单例模式
+
+注册式单例模式分为两种：枚举式单例模式和容器式单例模式。
+
+* 枚举式单例模式
+
+```java
 
 ```
 
