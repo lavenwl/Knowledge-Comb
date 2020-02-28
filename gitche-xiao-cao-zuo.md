@@ -1,4 +1,4 @@
-git撤销的集中情况
+### Git撤销的几种情况
 
 * 提交后, 发现提交的备注写错了, 或者少提交了一些内容.
 
@@ -22,8 +22,18 @@ git reset HEAD <fileName>
 ```shell
 git restore <fileName>
 // 或者使用, 返回到上一次暂存的内容
-git checkout -- <fileName> 
+git checkout -- <fileName>
 ```
+
+### 相关命令的第一印象功能
+
+* git reset \[--soft, --mixed, --hard\] : 撤销到某一次提交到\[所有修改已保存暂存区, 所有修改未保存暂存区, 丢弃所有修改\]
+* git checkout: 在保留所有提交的情况下, 切换分支HEAD到某一次提交
+* git restore: 操作工作区域暂存区的文件来回切换
+* git rebase: 已一种更优雅的方式合并代码, 但是好 丢弃时间等提交信息, 不会有分支的提交,而是合并成一条线提交
+* git revert: 撤销某一次提交的内容, 并形成一次新的提交记录作为当前状态的基础
+* git stash: 保存工作区的临时文件, 方便切换分支后返回重新应用修改
+* git cherry-pick: 挑选某一次提交合并到特定分支
 
 
 
