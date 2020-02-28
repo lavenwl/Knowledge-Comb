@@ -64,9 +64,9 @@ public class LazySimpleSingleton{
 // 多线程下的单例模式代码，锁定了整个方法，性能下降
 public class LazySimpleSingleton{
     private static final LazySimpleSingleton instance;
-    
+
     private LazySimpleSingleton() {}
-    
+
     // 通过锁定方法实现
     public synchronized static LazySimpleSingleton getInstance() {
         if (instance == null) {
@@ -74,7 +74,7 @@ public class LazySimpleSingleton{
         }
         return instance;
     }
-    
+
     // 通过锁定代码块实现
     public static LazySimpleSingleton getInstance2() {
         synchronized(LazySimpleSingleton.class) {
@@ -89,9 +89,9 @@ public class LazySimpleSingleton{
 // 双重检查锁单例模式， 一定程度提高了性能
 public class LazyDoubleCheckSingleton{
     private static final LazyDoubleCheckSingletion instance;
-    
+
     private LazyDoubleCheckSingletion(){}
- 
+
     public static LazyDoubleCheckSingleton getInstacne() {
         if(instance == null) { // 判断是否加锁， 提高性能
             synchronized(LazyDoubleCheckSingleton.class) {
@@ -107,19 +107,18 @@ public class LazyDoubleCheckSingleton{
 // 静态内部类单例模式，利用java特性，避免浪费内存和synchronized的性能问题
 public class LazyInnerClassSingleton{
     private static final LazyInnerClassSingleton instance;
-    
+
     private LazyInnerClassSingleton() {}
-    
+
     public static LazyInnerClassSingleton getInstance() {
         return InnerClass.instance;        
     }
-    
+
     // 默认不加载
     private static class InnerClass{
         private static final LazyInnerClassSingleton instance = new LazyInnerClassSingleton();
     }
 }
-
 ```
 
 ### 如何解决反射破坏单例的问题
@@ -128,22 +127,42 @@ public class LazyInnerClassSingleton{
 // 以静态内部类实现方式为例， 解决反射破坏单例的问题，只需要在构造器内添加判断
 public class LazyInnerClassSingleton{
     private static final LazyInnerClassSingleton instance;
-    
+
     private LazyInnerClassSingleton() {
         if (InnerClass.instance != null) {
             throw new RuntimeException("不可以e创建多个实例")
         }
     }
-    
+
     public static LazyInnerClassSingleton getInstance() {
         return InnerClass.instance;        
     }
-    
+
     // 默认不加载
     private static class InnerClass{
         private static final LazyInnerClassSingleton instance = new LazyInnerClassSingleton();
     }
 }
+```
+
+### 如何解决序列化破坏单例的问题
+
+```java
+// 以懒汉式单例模式代码为例说明如何解决序列化破坏单例的问题， 重写一个方法
+public class HungrySingleton{
+    private static final HungrySingleton instance = new HungrySingletion();
+
+    private HungrySingleton() {}
+
+    public static HungrySingleton getInstance() {
+        return instance;
+    }
+    
+    private Object readResolve(){
+        return instance;
+    }
+}
+
 
 ```
 
