@@ -159,7 +159,7 @@ public class HungrySingleton{
     public static HungrySingleton getInstance() {
         return instance;
     }
-    
+
     private Object readResolve(){
         return instance;
     }
@@ -172,8 +172,57 @@ public class HungrySingleton{
 
 * 枚举式单例模式
 
-```java
+> 枚举式单例模式在静态代码块中给INSTANCE复制，是饿汉单例模式
+>
+> JDK底层对枚举类型做了特殊判断，保证序列化与反射不会影响单例实现
 
+```java
+public enum EnumSingleton{
+    INSTANCE;
+    
+    private Object data;
+    
+    public Object getData(){
+        return data;
+    }
+    
+    public void setData(Object data) {
+        this.data = data;
+    }
+    
+    public static EnumSingleton getInctance() {
+        return INSTANCE;
+    }
+}
+```
+
+* 容器式单例模式
+
+> 适用于实例非常多的情况，便于管理
+>
+> 但他是非线程安全的。
+
+```java
+public class ContainerSingleton {
+    private ContainerSingleton() {}
+    private static Map<String, Object> ioc = new ConcurrentHashMap<String, Object>();
+    public static Object getBean(String, className) {
+        synchronized (ioc) {
+            if(!ioc.containsKey(className)) {
+                Object obj = null;
+                try{
+                    obj = Class.forName(className).newInstance();
+                    ioc.put(className, obj);
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+                return obj;
+            } else {
+                return ioc.get(className);
+            }
+        }
+    }
+}
 ```
 
 
