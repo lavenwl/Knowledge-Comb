@@ -226,5 +226,26 @@ public class ContainerSingleton {
 }
 ```
 
+### 线程单例实现 ThreadLocal
+
+> Thread Local 不能保证其创建的对象是全局唯一的， 但是能保证在单个线程中是唯一的， 线程安全
+
+```java
+public class ThreadLocalSingleton {
+    private static final ThreadLocal<ThreadLocalSingleton> threadLoaclInstance = 
+        new ThreadLocal<ThreadLocalSingelton>() {
+            protected ThreadLocalSingleton initValue() {
+                return new ThreadLocalSingletion();
+            }
+        };
+        
+    private ThreadLocalSingleton() {}
+    
+    public static ThreadLocalSingleton getInstance() {
+        return threadLocalInstance.get();
+    }
+}
+```
+
 
 
