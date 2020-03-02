@@ -10,4 +10,5 @@
 * [Git常用操作](gitche-xiao-cao-zuo.md)
 * [单例模式](dan-li-mo-shi.md)
 * [原型模式](yuan-xing-mo-shi.md)
+* [代理模式](dai-li-mo-shi.md)
 
