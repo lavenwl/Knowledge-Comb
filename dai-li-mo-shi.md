@@ -2,7 +2,18 @@
 
 为其他对象提供一种代理, 以控制这个对象的访问. 属于结构型模式.
 
-### 代理模式的几个角色 
+优点：
+
+1. 代理模式能将代理对象与真实的目标对象分离降低系统耦合性， 扩展性能好
+2. 可以起到保护目标对象的作用
+3. 可以增强目标对象的功能
+
+缺点：
+
+1. 代理模式会造成系统设计中类数量的增加， 增加系统复杂度
+2. 客户端与目标对象中增加代理对象，会导致请求速度变慢
+
+### 代理模式的几个角色
 
 * 抽象主题角色
 * 真实具体角色
@@ -19,6 +30,125 @@
 5. 重新加载到JVM中运行
 
 > 以上过程叫字节重组, JDK中有一个规范, 在ClassPath下只要是$开头的.class文件,一般都是自动生成
+
+```java
+// JDK 代理实现
+package proxy.dynamicproxy.jdkproxy;
+
+import proxy.dynamicproxy.IPerson;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
+
+
+/**
+ * @Description:
+ * @Author: laven
+ * @Date: 2020-03-01 20:38
+ */
+public class Meipo implements InvocationHandler {
+
+    private IPerson target;
+
+    public IPerson getInstance(IPerson target) {
+        this.target = target;
+        Class<?> clazz = target.getClass();
+
+        return (IPerson) Proxy.newProxyInstance(clazz.getClassLoader(), clazz.getInterfaces(), this);
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        before();
+        Object result = method.invoke(this.target, args);
+        after();
+        return result;
+    }
+
+    private void after() {
+        System.out.println("开始后");
+    }
+
+    private void before() {
+        System.out.println("开始前");
+    }
+}
+
+```
+
+### CGLib代理实现原理
+
+```java
+// CGLib代理实现代码
+
+package proxy.dynamicproxy.cglibproxy;
+
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
+
+import java.lang.reflect.Method;
+
+public class Meipo implements MethodInterceptor {
+
+    public Object getInstance (Class<?> clazz) throws Exception {
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(clazz);
+        enhancer.setCallback(this);
+        return enhancer.create();
+    }
+
+    @Override
+    public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+        before();
+        Object obj = methodProxy.invokeSuper(o, objects);
+        after();
+        return obj;
+    }
+
+    private void after() {
+        System.out.println("执行后");
+    }
+
+    private void before() {
+        System.out.println("执行前");
+    }
+}
+
+```
+
+> CGLib代理执行代理方法的效率之所以比JDK的高， 是因为CGLib采用了FastClass机制，他的原理简单说就是： 为代理类与被代理类个生成一个类， 这个类会为代理类或被代理类分配一个index\(int类型\)；这个index当做一个入参， FastClass就可以直接定位到要调用的方法， 并直接执行调用， 省去了反射调用。
+>
+> FastClass并不是跟代理类一起生成的，而是在第一次执行MethodProxy的invoke或invokeSuper\(\)方法时生成的， 并放在缓存中。
+
+### CGLib和JDK动态代理的对比
+
+1. JDK动态代理实现了被代理对象的接口， CGLib代理继承了被代理对象
+2. JDK动态代理和CGLib代理都是运行期生成字节码，JDK动态代理直接写Class字节码， CGLib代理使用ASM框架写Class字节码，CGLib代理实现更复杂， 生成代理类比JDK代理效率低。
+3. JDK动态代理调用代理方法时通过反射机制调用， CGLib代理是通过FastClass机制直接调用方法， CGLib代理的执行效率更高。
+
+### 代理模式在Spring中的应用
+
+1. jdkDynamicAopProxy
+2. CglibAopProxy
+
+### Spring中代理选择原则
+
+1. 当Bean有实现接口时，Spring就会使用JDK动态代理
+2. 当Bean没有实现接口时，Spring会选择CGLib代理
+3. Spring可以通过配置强制使用CGlib代理， 只需要在Spring的配置文件中加入以下代码
+
+```config
+<aop:aspectj-autoproxy proxy-target-class="true:/>
+```
+
+### 静态代理和动态代理的本质区别
+
+1. 静态代理只能通过手动完成代理操作， 如果被代理类增加新的方法， 代理类需要同步增加，违背开闭原则
+2. 动态代理采用在运行时动态生成代码的方式，取消了对被代理类的扩展限制，遵循开闭原则
+3. 若动态代理要对目标类的增强逻辑进行扩展， 结合策略模式， 只需要新增策略类便可完成，无需修改代理类的代码。
 
 
 
