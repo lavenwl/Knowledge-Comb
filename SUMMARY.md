@@ -4,6 +4,10 @@
 * [Git常用操作](gitche-xiao-cao-zuo.md)
 * [手写淘宝页面](shou-xie-tao-bao-ye-mian.md)
 
+## JavaScript
+
+* [基础知识](javascript/ji-chu-zhi-shi.md)
+
 ## MySQL
 
 * [MySQL事务与锁详解](mysqlshi-wu-yu-suo-xiang-jie.md)
