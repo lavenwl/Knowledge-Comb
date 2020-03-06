@@ -12,4 +12,5 @@
 * [原型模式](yuan-xing-mo-shi.md)
 * [代理模式](dai-li-mo-shi.md)
 * [门面模式](men-mian-mo-shi.md)
+* [装饰器模式](zhuang-shi-qi-mo-shi.md)
 
