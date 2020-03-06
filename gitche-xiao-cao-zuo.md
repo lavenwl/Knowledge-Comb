@@ -39,7 +39,15 @@ rebase 相当于多次 cherry-pick操作.
 
 add 与 reset\(restore --staged\) 操作相反  reset HEAD &lt;fileName&gt; \(restore &lt;fileName&gt;\)可以删除本地的修改
 
-
-
 详情参考[官网](https://git-scm.com/book/zh/v2)
+
+
+
+### Intellj中的revert, 与revert Commit
+
+revert : 类似取消本地修改, 同: git reset HEAD --hard
+
+revert commit: 则是git 中的revert 同: git revert -n 提交版本号
+
+
 
