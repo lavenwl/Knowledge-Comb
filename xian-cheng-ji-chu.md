@@ -51,6 +51,8 @@ public class CallableDemo implements Callable<String> {
 
 ### 线程的生命周期
 
+> 一个线程6种状态： new, runnable, blocked, waiting, time\_waiting, terminated
+
 * NEW：初始状态， 线程被构建，但还没调用start方法
 * RUNNABLE：运行状态， JAVA线程中表操作系统中的就绪和运行两种状态统称为“运行中“
 * BLOCKED：阻塞状态，线程进入等待状态， 放弃CPU使用权
@@ -59,6 +61,8 @@ public class CallableDemo implements Callable<String> {
   * 其他阻塞：运行的线程执行Thread.sleep或者t.join方法， 或者发出了I/O请求时，JVM会把当前线程设置为阻塞状态， 当sleep结束，join线程终止，io处理完毕则线程恢复
 * TIME\_WAITING：超时等待状态，超时以后自动返回
 * TERMINATED：终止状态， 表示当前线程执行完毕
+
+![](/assets/thread-life-cycle.png)
 
 
 
