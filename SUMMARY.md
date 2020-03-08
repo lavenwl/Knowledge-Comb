@@ -9,6 +9,10 @@
 
 * [基础知识](javascript/ji-chu-zhi-shi.md)
 
+## 并发编程
+
+* [线程基础](xian-cheng-ji-chu.md)
+
 ## MySQL
 
 * [MySQL事务与锁详解](mysqlshi-wu-yu-suo-xiang-jie.md)
