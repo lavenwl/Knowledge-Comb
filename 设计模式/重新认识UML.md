@@ -4,17 +4,26 @@
 
 ### 事务关系的描述
 
+* 泛华关系（Generalization）：表示一个更泛华的元素和一个更具体的元素之间的关系，同继承，用带三角的实现表示
+* 实现关系（Realization）：类与接口的关系，用带三角形的虚线表示，箭头指向父类接口
+* 组合关系（Combination）：整体与部分的关系，组合比聚合严格，当某个实体组合成另一个实体时，二者具有相同的生命周期，用带有实心菱形的实现表示，菱形指向整体。
+* 聚合关系（Aggregation）：是整体与部分的关系，用空心菱形的实线表示：菱形指向整体
 * 关联关系（Association）：是一种拥有的关系，具有方向性，用带箭头的实线表示
-
 * 依赖关系（Dependency）：如果一个类的改动会影响到另外一个类， 则两个类是依赖关系，一般是单向的，用带箭头的虚线表示
 
-* 实线关系（Realization）：类与接口的关系，用带三角形的虚线表示，箭头指向父类接口
+```mermaid
+classDiagram
+classA --|> classB : Inheritance
+classC --* classD : Composition
+classE --o classF : Aggregation
+classG --> classH : Association
+classI -- classJ : Link(Solid)
+classK ..> classL : Dependency
+classM ..|> classN : Realization
+classO .. classP : Link(Dashed)
+```
 
-* 泛华关系（Generalization）：表示一个更泛华的元素和一个更具体的元素之间的关系，同继承，用带三角的实现表示
-
-* 组合关系（Combination）：整体与部分的关系，组合比聚合严格，当某个实体组合成另一个实体时，二者具有相同的生命周期，用带有实心菱形的实现表示，菱形指向整体。
-
-* 聚合关系（Aggregate）：是整体与部分的关系，用空心菱形的实线表示：菱形指向整体
+![image-20200314091133941](重新认识UML.assets/image-20200314091133941.png)
 
 ### 类图（Class Diagrams）
 
