@@ -196,7 +196,15 @@ div{
 }
 ```
 
-### 
+### box-sizing
+
+box-sizing: border-box; 用来定义一个盒子模型的大小根据边框来算来计算。默认根据内容来算
+
+> 参考[链接](https://www.w3school.com.cn/cssref/pr_box-sizing.asp)
+
+
+
+
 
 
 
