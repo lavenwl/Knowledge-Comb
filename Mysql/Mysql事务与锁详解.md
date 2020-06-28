@@ -41,7 +41,7 @@ show variables like 'autocommit'; -- 查看自动提交配置
 
 ### 事务个例级别
 
-> 事务个例级别有一个标准： [SQL92标准](http://www.contrib.andrew.cmu.edu/~shadow/sql/sql1992.txt)
+> 事务隔离级别有一个标准： [SQL92标准](http://www.contrib.andrew.cmu.edu/~shadow/sql/sql1992.txt)
 
 1. 未提交读（Read Uncommitted）： 一个事务可以读取到其他事务未提交的数据，没有解决任何问题
 2. 已提交读（Read Committed）：一个事务可以读取到其他事务已提交的数据，不能读取到其他事务未提交的数据，它解决了脏读的问题，但是会出现不可重复读的问题。
