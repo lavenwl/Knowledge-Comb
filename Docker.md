@@ -33,6 +33,8 @@ apt-get install vim
 exit
 ## 查看所有容器
 docker ps -all
+# 删除容器
+docker rm container id
 ```
 
 ### Docker 默认仓库地址修改
@@ -52,7 +54,7 @@ docker ps -all
      ```shell
     sudo systemctl daemon-reload // centOS 命令
     sudo systemctl restart docker
-     ```
+    ```
 
 ### 镜像与容器
 
@@ -151,4 +153,30 @@ ENTRYPOINT ["java","Hello"]
 运行`docker run laven: lastest`运行此镜像
 
 运行后可以通过`docker exec -it containerId /bin/bash`进入到容器层
+
+### 挂载Volume
+
+将容器内的目录与本机目录做映射, 以保留响应修改
+
+```shell
+docker run -d --name first_tomcat -p 8080:8080 -v /tem/webapps:/usr/local/tomcat/webapps tomcat
+```
+
+#### Mysql的默认挂载点
+
+> https://github.com/docker-library/mysql/blob/master/5.7/Dockerfile
+>
+> mysql容器默认的容器内挂载目录: /var/lib/mysql
+
+```shell
+# 运行mysql
+docker run -d --name mysql01 -e MYSQL_ROOT_PASSWORD=123456 mysql
+# 查询所有的挂载
+docker volume ls
+# 查看具体volume的信息
+docker volume inspect [volume_name]
+
+```
+
+
 
