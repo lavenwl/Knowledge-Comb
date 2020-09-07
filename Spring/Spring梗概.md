@@ -82,6 +82,15 @@
 
 
 
-### Spring的扩展接口整理
+### bean的生命周期
 
-* BeanPostProcessor
+参考[生命周期流程图](https://www.cnblogs.com/zrtqsk/p/3735273.html)
+
+[深究Spring中Bean的生命周期](https://www.cnblogs.com/javazhiyin/p/10905294.html)
+
+
+
+
+
+
+
