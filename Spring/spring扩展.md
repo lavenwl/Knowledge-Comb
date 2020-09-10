@@ -65,3 +65,7 @@ DisposableBean: 提供了bean销毁的方法
 > 重写destroy方法
 >
 > 类似的还有配置文件中配置destroy-method方法
+
+InstantiationAwareBeanPostProcessorAdapter: 在bean实例化前后调用, 常用于创建代理对象
+
+> 重写postProcessBeforeInitialization(), postProcessAfterInitialization(), postPrcessPropertyValues()
