@@ -61,3 +61,7 @@ Spring Bean的完整的生命周期从创建Spring容器开始, 知道最终Spri
 > 3. 容器级别生命周期接口方法: 包括InstantiationAwareBeanPostProcessor, BeanPostProcessor
 > 4. 工厂后处理器接口方法: 包括AspectJWeavingEnabler, ConfigurationClassPostProcessor, CustomAutowireConfigurer等非常有用的工厂后处理器, 工厂后处理器也是容器级别的, 在应用上下文装配配置文件后立即调用.
 
+### springboot的SPI机制
+
+在Springboot自动装配的过程中, 会加载META-INF/spring.factories文件, 加载的过程是由SPringFactoriesLoader加载的. 从Classpath下每个jar包中搜索所有的META-INF/spring.factories文件, 根据配置的路径将对应的类添加到IOC容器中.
+
