@@ -10,6 +10,8 @@
 
 IO, 为BIO, 为阻塞IO, NIO为 New IO, 是非阻塞IO, NIO是JDK1.4引入, 面向buffer, 而IO则是面向流.
 
+
+
 参考[网页](https://blog.csdn.net/zengxiantao1994/article/details/88094910?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.add_param_isCf&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.add_param_isCf)
 
 ### ArrayList与LinkedList哪个是线程安全的
@@ -29,4 +31,4 @@ IO, 为BIO, 为阻塞IO, NIO为 New IO, 是非阻塞IO, NIO是JDK1.4引入, 面�
 ### HashMap的原理, 是否有序, 有序的集合是什么
 
 * HashMap, HashTable是无序的
-* TreeMap(默认按照key升序排序), LinkedHashMap(记录了插入key的顺序)是有序的
+* TreeMap(默认按照key升序), LinkedHashMap(记录了插入key的顺序)是有序的
