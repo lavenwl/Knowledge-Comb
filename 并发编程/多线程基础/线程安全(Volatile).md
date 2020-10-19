@@ -32,6 +32,15 @@ volatile可以使得在多处理器环境下保证了共享变量的可见性.
 
  [一个问题引发的思考.pdf](source/一个问题引发的思考.pdf) 
 
+### happen-before规则的内容:(七条)
+
+* 同一个线程中的，前面的操作 happen-before 后续的操作。（即单线程内按代码顺序执行。但是，在不影响在单线程环境执行结果的前提下，编译器和处理器可以进行重排序，这是合法的。换句话说，这一是规则无法保证编译重排和指令重排）。
+* 监视器上的解锁操作 happen-before 其后续的加锁操作。（Synchronized 规则）
+* 对volatile变量的写操作 happen-before 后续的读操作。（volatile 规则）
+* 线程的start() 方法 happen-before 该线程所有的后续操作。（线程启动规则）
+* 线程所有的操作 happen-before 其他线程在该线程上调用 join 返回成功后的操作。
+* 如果 a happen-before b，b happen-before c，则a happen-before c（传递性）。
+
 
 
 

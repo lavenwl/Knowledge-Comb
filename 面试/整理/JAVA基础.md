@@ -2,6 +2,18 @@
 
 引用Java基础中的HashMap [HashMap.md](../../JAVA基础/HashMap.md) 
 
+### hashmap put get 接口 集合类名 
+
+node数组
+
+### hashmap扩容机制
+
+1. 什么时候扩容: 当新增元素的时候, 会判断当前容器的长度是否满足条件, 当>=总长度*阈值的时候, 会触resize()方法执行扩容机制
+2. 新建一个容量为原来容量两倍的数组来存放新的数据, 然后对每一个桶内的链表进行迭代, 采用头插的方式将数据放入新的数组及链表中.
+3. 1.8中做了优化, 1.7扩容后链表顺序会倒置,但1.8, 不会, 1.7会rehash, 1.8,采用位与运算来解决扩容索引定位问题, 不需要rehash.
+
+
+
 ### ConccurentHashMap 1.7、1.8实现(蚂蚁金服)
 
 引用Java基础中的HashMap [HashMap.md](../../JAVA基础/HashMap.md) 
