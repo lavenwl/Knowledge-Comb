@@ -84,3 +84,30 @@ SpringCloud 由于版本迭代较快, 存在版本说明差异.
 
     > 如: 服务的名称, 服务的注册中心, 服务的url,等信息
 
+### dubbo中的设计模式及例子
+
+* 责任链模式
+
+    责任链模式在dubbo中发挥着举足轻重的作用, 就像是dubbo的骨架. dubbo的调用链组织是用责任链模式串联起来的, 责任链中每一个节点实现Filter接口, 然后由ProtocolFilterWrapper, 将所有的Filter串连起来. dubbo的很多功能都是Filter扩展实现的, 不如监控, 日志, 缓存安全, telnet以及RPC本身都是. 这种模式易于dubbo的扩展.
+
+* 观察者模式 (Listener)
+
+    Dubbo中使用观察者模式最典型的例子是`RegistryService`。消费者在初始化的时候回调用subscribe方法，注册一个观察者，如果观察者引用的服务地址列表发生改变，就会通过`NotifyListener`通知消费者。此外，Dubbo的`InvokerListener`、`ExporterListener` 也实现了观察者模式，只要实现该接口，并注册，就可以接收到consumer端调用refer和provider端调用export的通知。Dubbo的注册/订阅模型和观察者模式就是天生一对。
+
+* 装饰器模式 (Wrapper)
+
+    Dubbo中还大量用到了修饰器模式。比如`ProtocolFilterWrapper`类是对Protocol类的修饰。在export和refer方法中，配合责任链模式，把Filter组装成责任链，实现对Protocol功能的修饰。其他还有`ProtocolListenerWrapper`、 `ListenerInvokerWrapper`、`InvokerWrapper`等。个人感觉，修饰器模式是一把双刃剑，一方面用它可以方便地扩展类的功能，而且对用户无感，但另一方面，过多地使用修饰器模式不利于理解，因为一个类可能经过层层修饰，最终的行为已经和原始行为偏离较大。
+
+* 工厂方法
+
+    `CacheFactory`的实现采用的是工厂方法模式。`CacheFactory`接口定义getCache方法，然后定义一个`AbstractCacheFactory`抽象类实现`CacheFactory`，并将实际创建cache的createCache方法分离出来，并设置为抽象方法。这样具体cache的创建工作就留给具体的子类去完成。
+
+* 适配器模式
+
+    为了让用户根据自己的需求选择日志组件，Dubbo自定义了自己的Logger接口，并为常见的日志组件（包括jcl, jdk, log4j, slf4j）提供相应的适配器。并且利用简单工厂模式提供一个`LoggerFactory`，客户可以创建抽象的Dubbo自定义`Logger`，而无需关心实际使用的日志组件类型。在LoggerFactory初始化时，客户通过设置系统变量的方式选择自己所用的日志组件，这样提供了很大的灵活性。
+
+* 代理模式
+
+    Dubbo consumer使用`Proxy`类创建远程服务的本地代理，本地代理实现和远程服务一样的接口，并且屏蔽了网络通信的细节，使得用户在使用本地代理的时候，感觉和使用本地服务一样。
+
+    
