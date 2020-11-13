@@ -80,3 +80,27 @@ Spring Bean的完整的生命周期从创建Spring容器开始, 知道最终Spri
 | PROPAGATION_NOT_SUPPORTED | 以非事务方式操作, 如果当前存在事务, 就把当前事务挂起.        |
 | PROPAGATION_NEVER         | 以非事务方式执行, 如果存在事务, 则抛出异常                   |
 | PROPAGATION_NESTED        | 如果一个活动的事务存在, 则运行在一个嵌套的事务中, 如果没有活动的事务, 就按照required属性, 他使用一个单独的事务, 这个事务拥有多个回滚保存点, 内部事务回滚不会对外部事务产生影响, 它只对DataSourceTransactionManager事务管理器起效. |
+
+### spring的对象是否是单例的，如果要多例怎么弄，存在线程安全问题吗？如何防止。
+
+spring默认是单例的, 也可以设置为多利, 只要在定义bean的地方设置scope为prototype就可以了.
+
+spring默认使用单例模式, 就会造成controller中的实例变量在多线程访问时出现线程安全的问题, 解决方法是可以使用ThreadLocal的方式获取存储对应的变量值, 也可以设置对应的单例模式为原型模式.
+
+
+
+### bean有多少种scope
+
+>  参考https://blog.csdn.net/xiaoyiaoyou/article/details/45876073
+
+初始状态有两种scope:
+
+1. singleton
+2. prototype
+
+后续添加了三种状态, 之应用于web应用中
+
+1. request
+2. session
+3. global session
+

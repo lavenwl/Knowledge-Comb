@@ -1,3 +1,5 @@
+专项面试题 https://juejin.im/post/6844904023514939406#heading-23
+
 ### dubbo 支持的协议类型?
 
 * dubbo
@@ -110,4 +112,23 @@ SpringCloud 由于版本迭代较快, 存在版本说明差异.
 
     Dubbo consumer使用`Proxy`类创建远程服务的本地代理，本地代理实现和远程服务一样的接口，并且屏蔽了网络通信的细节，使得用户在使用本地代理的时候，感觉和使用本地服务一样。
 
-    
+
+### Dubbo的实现原理
+
+> 参考[网页](https://crazyfzw.github.io/2018/06/10/dubbo-architecture/)
+
+**1.** 为了保持极强的扩展性，Dubbo 一开始就使用 Microkernel + Plugin （微核心+插件）的设计模式，Microkernel 只负责组装 Plugin，Dubbo 通过利用并改进JDK 标准的 SPI (Service Provider Interface) 扩展点发现机制实现自身的大部分功能(除 Service 和 Config 层为API)。采用 URL 作为配置信息的统一格式，所有扩展点都通过传递 URL 携带配置信息，基于扩展点自适应机制，根据URL中的配置信息，在链的最后一节调用真实的引用，所以Dubbo天生就具有极强的灵活的拓展性。
+
+**2.** 从服务模型的角度来看，Dubbo 采用的是一种非常简单的模型，要么是提供方提供服务，要么是消费方消费服务，所以基于这一点可以抽象出服务提供方（Provider）和服务消费方（Consumer）两个角色。
+
+### Dubbo 支持分布式事务吗？
+
+> 参考 https://juejin.im/post/6844904023514939406
+
+目前暂时不支持，可与通过 tcc-transaction 框架实现
+
+介绍：tcc-transaction 是开源的 TCC 补偿性分布式事务框架
+
+TCC-Transaction 通过 Dubbo 隐式传参的功能，避免自己对业务代码的入侵。
+
+

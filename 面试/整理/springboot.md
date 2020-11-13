@@ -6,3 +6,5 @@ springboot在继承其他项目时使用starter方式. 如果自己的项目没�
 
 简单实用springboot, 没有遇到大问题, 一些小问题直接解决掉了.
 
+### 如何实现自己的starter
+

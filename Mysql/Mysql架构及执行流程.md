@@ -1,3 +1,5 @@
+ [MySQL架构与SQL执行流程.pdf](source/MySQL架构与SQL执行流程.pdf) 
+
 ### 如何查询MySQL链接超时时间
 
 ```sql
@@ -351,5 +353,5 @@ binglog以事件的形式记录了所有的DDL和DML语句（因为他记录的�
 3. 执行器收到通知后，记录binlog，然后调用存储引擎接口， 设置redolog为commit状态
 4. 更新完成
 
-
+![image-20201113130713200](Mysql架构及执行流程.assets/image-20201113130713200.png)
 

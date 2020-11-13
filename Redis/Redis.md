@@ -1,3 +1,13 @@
+参考:
+
+ [【课堂笔记】Redis分布式篇.pdf](source/[课堂笔记]Redis分布式篇.pdf) 
+
+ [【课堂笔记】Redis基础篇.pdf](source/[课堂笔记]Redis基础篇.pdf) 
+
+ [【课堂笔记】Redis实战篇.pdf](source/[课堂笔记]Redis实战篇.pdf) 
+
+ [【课堂笔记】Redis原理篇.pdf](source/[课堂笔记]Redis原理篇.pdf) 
+
 ### Redis的启动:
 
 ```
