@@ -1,6 +1,6 @@
 ### 什么是Docker
 
-Docker是为开发人员和系统管理员提供容器构建, 运行和共享的应用程序平台, 使用容器来部署应用程序称为容器化, 容器不是新的, 但是应用轻松部署应用程序的容器确实新的.
+Docker是为开发人员和系统管理员提供容器构建, 运行和共享的应用程序平台, 使用容器来部署应用程序称为容器化, 容器不是新的, 但是应用轻松部署应用程序的容器却是新的.
 
 ### Docker的使用
 
@@ -31,8 +31,14 @@ apt-get update
 apt-get install vim
 # 退出容器
 exit
-## 查看所有容器
+# 查看所有容器
 docker ps -all
+# 查看运行中的容器
+docker ps
+# 容器的启动, 停止, 重启
+docker stop containerID
+docker start containerID
+docker restart containerID
 # 删除容器
 docker rm container id
 ```
@@ -160,6 +166,9 @@ ENTRYPOINT ["java","Hello"]
 
 ```shell
 docker run -d --name first_tomcat -p 8080:8080 -v /tem/webapps:/usr/local/tomcat/webapps tomcat
+
+// 可以在容器创建后建立挂载点
+docker run -it -v ~/Documents/docker/:/datas centos
 ```
 
 #### Mysql的默认挂载点
