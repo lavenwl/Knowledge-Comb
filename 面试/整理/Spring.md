@@ -1,6 +1,6 @@
 ### Bean的生命周期(蚂蚁金服)
 
-Spring Bean的完整的生命周期从创建Spring容器开始, 知道最终Spring容器销毁Bean, 其中的关键节点是:
+Spring Bean的完整的生命周期从创建Spring容器开始, 直到最终Spring容器销毁Bean, 其中的关键节点是:
 
 * 实例化`BeanFactoryPostProcessor`实现类
 
@@ -12,7 +12,7 @@ Spring Bean的完整的生命周期从创建Spring容器开始, 知道最终Spri
 
     * 执行`InstantiationAwareBeanPostProcessor`的`postProcessBeforeInstantiation()`方法
 
-        > 一下内容为执行Bean构造器, 实例化Bean的过程
+        > 以下内容为执行Bean构造器, 实例化Bean的过程
 
         * 执行`InstantiationAwareBeanPostProcessor`的`postProcessPropertiesValues()`方法
 
