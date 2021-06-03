@@ -11,12 +11,12 @@
 
 1. SqlSessionFactoryBuilder: 用来构建SqlSessionFactory, 而SqlSessionFactory只需要一个, 所以构建一个SqlSessionFactory, 它的使命就完成了, 也就没有存在的意义, 所以它的声明周期只存在于`方法的局部`.
 2. SqlSessionFactory(单例): 用来创建SqlSession的, 每次应用访问数据库都需要创建一个会话, 因为我们一直有创建会话的需要, 所以SqlSessionFactory应该存在于应用的整个生命周期中(`作用域是应用的作用域`)
-3. SqlSession是一个会话, 因为它不是线程安全的, 不能再线程间共享. 所以我们在请求开始的时候创建一个SqlSession对象, 在请求结束或者方法执行完毕的时候要及时关闭它(`一次请求或者操作中`)
+3. SqlSession是一个会话, 因为它不是线程安全的, 不能在线程间共享. 所以我们在请求开始的时候创建一个SqlSession对象, 在请求结束或者方法执行完毕的时候要及时关闭它(`一次请求或者操作中`)
 4. Mapper(实际上是一个代理对象) 是从SqlSession中获取的
 
 ### 核心配置解读
 
-1. configuration 是整个配置文件的跟标签, 实际上对应着MyBatis里面最重要的配置类Configuration, 它贯穿MyBatis执行流程的每一个环节
+1. configuration 是整个配置文件的根标签, 实际上对应着MyBatis里面最重要的配置类Configuration, 它贯穿MyBatis执行流程的每一个环节
 
 2. properties 用来配置参数信息, 比如最常用的数据库链接信息. 为了避免直接把参数写死在xml配置文件中, 我们可以吧这些参数单独放在properties文件中, 用properties标签引入进来, 然后在xml配置文件中用`${}`引用就可以了, 可以用resource引用应用里面的相对路径,
 
