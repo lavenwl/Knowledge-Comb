@@ -1,0 +1,15 @@
+如果需要给MyBatis源码加中文注释，需要下载源码在本地编译。
+参考文章：
+https://mp.weixin.qq.com/s/v0ihaPsuyGufdc_ImEqX8A
+
+这两个工程是青山老师在主要流程上添加了注释的源码工程，仅供参考。
+如果没有编译成功，把压缩包中现成的jar包放到
+E:\repository\org\mybatis\mybatis\3.5.4-snapshot
+
+E:\repository 是你的maven本地仓库路径。
+
+主要用到的命令：
+mvn clean
+mvn install -DskipTests=true -Dmaven.test.skip=true -Dlicense.skip=true
+
+mybatis-3下面放了两个bat脚本，可以直接清理和编译。
