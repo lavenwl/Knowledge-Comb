@@ -63,7 +63,7 @@ HashMap(Map<? extends K,? extends V> m)  //指定集合，转化为HashMap
 
 * HashMap可以使用null作为key, HashTable不可以使用null作为Key
 
-    > HashMap以null作为key时, 总是存储在table数组的第一个节点上
+    > HashMap以null作为key时, 总是存储在数组的第一个节点上
 
 * HashMap是对Map接口的实现, HashTable实现了Map接口和Dictionary抽象类
 
