@@ -141,3 +141,10 @@ spring默认使用单例模式, 就会造成controller中的实例变量在多�
 ### spring事物传播的应用log报错(如何具体使用)
 
 ### 说一下ApplicationContext的加载过程?
+
+1. https://blog.csdn.net/weixin_42440637/article/details/112074442
+
+[一篇文章搞懂Spring单例循环依赖加载](https://blog.csdn.net/weixin_42440637/article/details/112254141)
+
+[为什么Spring要使用三级缓存解决循环依赖？](https://blog.csdn.net/weixin_42440637/article/details/112264648)
+
