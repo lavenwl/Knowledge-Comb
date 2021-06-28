@@ -14,3 +14,10 @@
 3. StringBuffer是线程安全的, StringBuilder是线程不安全的
 4. StringBuilder的性能比StringBuffer要快
 
+java8的优化:
+
+1. 语法上: 加入了函数式编程, 流计算, 新的日期工具类
+2. 实现上: hashMap, concurrentHashMap都做了相应的优化
+3. 底层上: 通过添加注解的方式解决了cpu缓存行伪共享带来的性能问题
+4. JVM上: 以前的PermSpace, 改名为MataSpace [区别](https://www.nhooo.com/note/qa0irj.html)
+

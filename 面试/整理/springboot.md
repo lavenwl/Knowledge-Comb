@@ -11,3 +11,4 @@ springboot在继承其他项目时使用starter方式. 如果自己的项目没�
 ### springboot，自动装配
 
 ### springboot装配了那些bean.
+
