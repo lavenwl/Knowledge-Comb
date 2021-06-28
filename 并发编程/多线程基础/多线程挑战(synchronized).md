@@ -73,7 +73,9 @@ synchronized有三种方式来加锁:
 
 
 
+synchronized只有一个同步队列
 
+两个队列的是AQS, 与Condition
 
 
 
